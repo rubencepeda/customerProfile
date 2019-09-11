@@ -1,9 +1,9 @@
 package com.ruben_cepeda.customerProfile.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -13,18 +13,23 @@ public class Customer {
     private long id;
 
     @NotBlank(message = "first name is mandatory")
+    @Column(nullable = false)
     private String firstName;
 
     @NotBlank(message = "last name is mandatory")
+    @Column(nullable = false)
     private String lastName;
 
     @NotBlank(message = "email is mandatory")
+    @Email(message = "email must be well-formed")
+    @NaturalId(mutable = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(final String firstName, final String lastName, final String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
